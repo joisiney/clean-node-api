@@ -1,5 +1,6 @@
 const LoginRouter = require('./login-router')
 const MissingParamError = require('../helpers/missing-param-error')
+const ServerError = require('../helpers/server-error')
 const makeSut = () => {
   class AuthUseCaseSpy {
     auth (email, password) {
@@ -45,12 +46,14 @@ describe('Login router', () => {
     const { sut } = makeSut()
     const httpResponse = sut.route()
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 
   test('Should return 500 if no httpRequest has no body', async () => {
     const { sut } = makeSut()
     const httpResponse = sut.route({})
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 
   test('should call AuthUseCase with correct params', async () => {
@@ -99,6 +102,7 @@ describe('Login router', () => {
     }
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
   test('should return 500 if no AuthUseCase has no auth method', async () => {
     const sut = new LoginRouter({})
@@ -110,5 +114,6 @@ describe('Login router', () => {
     }
     const httpResponse = sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
