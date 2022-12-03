@@ -29,3 +29,6 @@
     }
 }
 ```
+
+# Jest
+- S.U.T. System Under Test, é o sistema que está sendo testado, no caso se tiver várias variáveis no sistema, o S.U.T. é a variável que está sendo testada
