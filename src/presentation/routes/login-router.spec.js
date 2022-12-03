@@ -1,17 +1,30 @@
 const LoginRouter = require('./login-router')
 const MissingParamError = require('../helpers/missing-param-error')
 const ServerError = require('../helpers/server-error')
-const makeSut = () => {
+const InvalidParamError = require('../helpers/invalid-param-error')
+const makeEmailValidator = () => {
+  class EmailValidator {
+    isValid (email) {
+      return /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email)
+    }
+  }
+  return new EmailValidator()
+}
+const makeAuthUseCase = () => {
   class AuthUseCaseSpy {
+    accessToken = 'valid_token'
     async auth (email, password) {
       this.email = email
       this.password = password
       return this.accessToken
     }
   }
-  const authUseCaseSpy = new AuthUseCaseSpy()
-  authUseCaseSpy.accessToken = 'valid_token'
-  const sut = new LoginRouter(authUseCaseSpy)
+  return new AuthUseCaseSpy()
+}
+const makeSut = () => {
+  const emailValidator = makeEmailValidator()
+  const authUseCaseSpy = makeAuthUseCase()
+  const sut = new LoginRouter(authUseCaseSpy, emailValidator)
   return {
     sut,
     authUseCaseSpy
@@ -29,12 +42,35 @@ describe('Login router', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
+  test('Should return 400 if invalid email is provider', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'invalid_email',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+  })
+  test('Should return 400 if valid email is provider', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'valid_email@gmail.com',
+        password: 'any_password'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+  })
 
   test('Should return 400 if no password is provider', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        email: 'john.dow@gmail.com'
+        email: 'email@gmail.com'
       }
     }
     const httpResponse = await sut.route(httpRequest)
@@ -73,7 +109,7 @@ describe('Login router', () => {
     authUseCaseSpy.accessToken = null
     const httpRequest = {
       body: {
-        email: 'john.dow.invalid@gmail.com',
+        email: 'invalid@gmail.com',
         password: 'invalid_password'
       }
     }
@@ -84,7 +120,7 @@ describe('Login router', () => {
     const { sut, authUseCaseSpy } = makeSut()
     const httpRequest = {
       body: {
-        email: 'john.dow.valid@gmail.com',
+        email: 'valid@gmail.com',
         password: 'valid_password'
       }
     }
@@ -96,7 +132,7 @@ describe('Login router', () => {
     const sut = new LoginRouter()
     const httpRequest = {
       body: {
-        email: 'john.dow@gmail.com',
+        email: 'email@gmail.com',
         password: 'password'
       }
     }
@@ -108,7 +144,7 @@ describe('Login router', () => {
     const sut = new LoginRouter({})
     const httpRequest = {
       body: {
-        email: 'john.dow@gmail.com',
+        email: 'email@gmail.com',
         password: 'password'
       }
     }
