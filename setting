@@ -1,0 +1,7 @@
+yarn run v1.22.19
+$ /Users/joisiney/Documents/projetos/clean-arquiterure/clean-node-api/node_modules/.bin/husky up git hooks
+Usage:
+  husky install [dir] (default: .husky)
+  husky uninstall
+  husky set|add <file> [cmd]
+Done in 0.83s.
