@@ -8,3 +8,17 @@
 - ```bash yarn add lint-staged -D``` Modulo que permite executar scripts de checagem e formatação (standard) nos arquivos que estão na stage do git.
 - ```bash yarn add husky -D``` Modulo executa scripts hooks antes de um commit, neste caso ele ira executar o lint-staged e impedir o commit de acontecer caso o código não esteja de acordo com as regras de formatação
   - O pode dar problemas no mac, para resolver isso, execute o comando ```bash yarn remove husky```,  ```bash yarn add -D husky```,  ```bash yarn husky install```,  ```bash yarn husky add .husky/pre-commit "lint-staged"``` e ```bash chmod a+x .husky/pre-commit``` após isso, o husky irá funcionar normalmente mas ele pode não estar executando o lint-staged, para resolver isso, abra o arquivo .husky/pre-commit e substitua *lint-staged* por *node_modules/.bin/lint-staged*
+  - Adicione o código de configuração do husky/lint-staged/standard no package.json
+  - ```javascript {
+    "lint-staged": {
+        "*.js": [
+            "standard --fix",
+            "git add"
+        ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npx lint-staged"
+        }
+    }
+```
