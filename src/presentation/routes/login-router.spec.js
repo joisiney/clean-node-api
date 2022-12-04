@@ -1,5 +1,6 @@
 const { LoginRouter } = require('./')
-const { InvalidParamError, ServerError, MissingParamError } = require('../errors')
+const { ServerError } = require('../errors')
+const { InvalidParamError, MissingParamError } = require('../../utils/errors')
 
 const makeEmailValidator = () => {
   class EmailValidator {
