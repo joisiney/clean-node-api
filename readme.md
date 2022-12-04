@@ -38,6 +38,7 @@
 - ```bash jest --silent``` Não apresenta a mensagem de teste passando ou falhando e nem os **console.***
 - ```bash jest --silent --verbose``` Apresenta a mensagem de teste passando ou falhando porem não apresenta os **console.***
 - ```bash jest --noStackTrace``` Apresenta apenas a falha do teste e não a pilha de execução
+- ```npm test -- --watch -c jest-unit-config.js``` Executando um script e concatenando com novas funcionalidades. Par aque isto funcione basta usar o **--** antes do comando
 
 # Status
 | Código | Descrição                                             |
