@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --silent --colors --noStackTrace",
-    "test:staged": "jest --passWithNoTests --findRelatedTests --silent --noStackTrace"
+    "test": "jest --colors --noStackTrace --passWithNoTests --runInBand",
+    "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:staged": "npm test -- --findRelatedTests --silent",
+    "test:ci": "npm test -- --coverage --silent",
+    "test:coveralls": "npm run test:ci && coveralls < coverage/lcov.info"
   },
   "standard":{
     "env": ["jest"]
@@ -13,13 +17,14 @@
   "lint-staged": {
     "*.js": [
       "standard --fix",
-      "yarn test:staged",
+      "npm run test:staged",
       "git add"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test:ci"
     }
   },
   "author": "",
