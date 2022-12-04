@@ -52,3 +52,6 @@ Status mais comuns:
 | 401    | Não possui credenciais de autenticação válidas para o recurso de destino                                         |
 | 403    | Servidor entendeu o pedido, mas se recusa a autorizá-lo                                                          |
 | 500    | Erro interno                                                                                                     |
+
+
+Continuar aula apartir daqui https://www.youtube.com/watch?v=-3qsB2i5GWk
