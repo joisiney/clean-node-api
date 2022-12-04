@@ -12,7 +12,8 @@ const makeAuthUseCase = (userEmailRepository) => {
       if (!email) throw new MissingParamError('email')
       if (!password) throw new MissingParamError('password')
       try {
-        await this.userEmailRepository.findByEmail(email)
+        const user = await this.userEmailRepository.findByEmail(email)
+        return user
       } catch {
         throw new InvalidParamError('userEmailRepository')
       }
@@ -25,6 +26,7 @@ const makeFindUserEmailRepositorySpy = () => {
   class FindUserEmailRepositorySpy {
     async findByEmail (email) {
       this.email = email
+      return null
     }
   }
   const userEmailRepository = new FindUserEmailRepositorySpy()
@@ -53,5 +55,10 @@ describe('Auth UseCase', () => {
     const { sut } = makeAuthUseCase()
     const ps = sut.auth('email@gmail.com', '123')
     expect(ps).rejects.toThrow(new InvalidParamError('userEmailRepository'))
+  })
+  test('Should return null FindUserEmailRepository return null', async () => {
+    const { sut } = makeAuthUseCase(makeFindUserEmailRepositorySpy())
+    const accessToken = await sut.auth('email@gmail.com', 'any_password')
+    expect(accessToken).toBeNull()
   })
 })
