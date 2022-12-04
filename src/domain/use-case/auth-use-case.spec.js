@@ -1,5 +1,4 @@
 const { MissingParamError } = require('../../utils/errors')
-const { InvalidParamError } = require('../../utils/errors')
 const { AuthUseCase } = require('./')
 const makeAuthUseCase = (userEmailRepository) => {
   const sut = new AuthUseCase(userEmailRepository)
@@ -37,7 +36,7 @@ describe('Auth UseCase', () => {
   test('Should throw if no FindUserEmailRepository is provided', async () => {
     const { sut } = makeAuthUseCase()
     const ps = sut.auth('email@gmail.com', '123')
-    expect(ps).rejects.toThrow(new InvalidParamError('userEmailRepository'))
+    expect(ps).rejects.toThrow()
   })
   test('Should return null FindUserEmailRepository return null', async () => {
     const { sut } = makeAuthUseCase(makeFindUserEmailRepositorySpy())
