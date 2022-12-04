@@ -23,6 +23,6 @@ describe('Auth UseCase', () => {
     const sut = new AuthUseCase()
     sut.accessToken = null
     const ps = sut.auth()
-    expect(ps).rejects.toThrow()
+    expect(ps).rejects.toThrow(new MissingParamError('email'))
   })
 })
