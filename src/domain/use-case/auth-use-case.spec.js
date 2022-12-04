@@ -52,7 +52,6 @@ describe('Auth UseCase', () => {
   test('Should throw if no FindUserEmailRepository is provided', async () => {
     const { sut } = makeAuthUseCase()
     const ps = sut.auth('email@gmail.com', '123')
-    // ?a
     expect(ps).rejects.toThrow(new InvalidParamError('userEmailRepository'))
   })
 })
