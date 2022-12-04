@@ -12,9 +12,8 @@ const { MissingParamError } = require('../../utils/errors')
 class AuthUseCase {
   accessToken = 'valid_token'
   async auth (email, password) {
-    if (!email) {
-      throw new MissingParamError('email')
-    }
+    if (!email) throw new MissingParamError('email')
+    if (!password) throw new MissingParamError('password')
   }
 }
 
@@ -24,5 +23,11 @@ describe('Auth UseCase', () => {
     sut.accessToken = null
     const ps = sut.auth()
     expect(ps).rejects.toThrow(new MissingParamError('email'))
+  })
+  test('Should throw null if no password is provided', async () => {
+    const sut = new AuthUseCase()
+    sut.accessToken = null
+    const ps = sut.auth('email@gmail.com')
+    expect(ps).rejects.toThrow(new MissingParamError('password'))
   })
 })
