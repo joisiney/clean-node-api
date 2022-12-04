@@ -32,6 +32,12 @@
 
 # Jest
 - S.U.T. System Under Test, é o sistema que está sendo testado, no caso se tiver várias variáveis no sistema, o S.U.T. é a variável que está sendo testada
+- ```bash jest --passWithNoTests``` Retorna verdadeiro quando da um teste sem testes no staged do git
+- ```jest --findRelatedTests``` é parecido com o **--watch**, porém ele executa apenas os testes relacionados ao arquivo que foi alterado
+- ```bash jest --watch``` Roda os testes em todos os arquivos alterados e fica observando para executar novamente quando houver alteração
+- ```bash jest --silent``` Não apresenta a mensagem de teste passando ou falhando e nem os **console.***
+- ```bash jest --silent --verbose``` Apresenta a mensagem de teste passando ou falhando porem não apresenta os **console.***
+- ```bash jest --noStackTrace``` Apresenta apenas a falha do teste e não a pilha de execução
 
 # Status
 | Código | Descrição                                             |
