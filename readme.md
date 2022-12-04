@@ -39,11 +39,16 @@
 - ```bash jest --silent --verbose``` Apresenta a mensagem de teste passando ou falhando porem não apresenta os **console.***
 - ```bash jest --noStackTrace``` Apresenta apenas a falha do teste e não a pilha de execução
 - ```npm test -- --watch -c jest-unit-config.js``` Executando um script e concatenando com novas funcionalidades. Par aque isto funcione basta usar o **--** antes do comando
+- arquivos salvos com **.spec.js** serão utilizados para teste unitário, para isto criamos um arquivo no root chamado **jest-unit-config.js** e **.test.js** para teste de integração que respeita a configuração padrão contida no **jest-integration-config.js**
 
 # Status
-| Código | Descrição                                             |
-| ------ | ----------------------------------------------------- |
-| 400    | Falha                                                 |
-| 401    | Não reconheço o usuário                               |
-| 403    | Reconheço o usuário, porem o mesmo não tem permissão. |
-| 500    | ?                                                     |
+### Guia de status [aqui](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Status/500)
+Status mais comuns:
+| Código | Descrição                                                                                                        |
+| ------ | ---------------------------------------------------------------------------------------------------------------- |
+| 200    | Sucesso                                                                                                          |
+| 201    | Sucesso returno vazio                                                                                            |
+| 400    | Servidor não pode ou não irá processar a requisição devido a alguma coisa que foi entendida como erro do cliente |
+| 401    | Não possui credenciais de autenticação válidas para o recurso de destino                                         |
+| 403    | Servidor entendeu o pedido, mas se recusa a autorizá-lo                                                          |
+| 500    | Erro interno                                                                                                     |
